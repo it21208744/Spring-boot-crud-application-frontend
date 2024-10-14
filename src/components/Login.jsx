@@ -1,31 +1,20 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { tokenLogin, LoginApi } from '../Apis/authApi'
 
 const Login = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const API_URL = 'http://localhost:8080/users/login'
-  const [refreshToken, setRefreshToken] = useState(null)
+
   const navigate = useNavigate()
 
   const findRefreshToken = async () => {
     try {
-      const storedToken = localStorage.getItem('refreshToken')
-      setRefreshToken(storedToken)
-
-      const tokenValidation = await fetch(
-        'http://localhost:8080/users/tokenLogin',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: storedToken,
-          },
-        }
-      )
+      const tokenValidation = await tokenLogin()
       if (tokenValidation.ok) {
-        console.log('Token is valid')
-        navigate('/dash')
+        if (tokenValidation.headers.get('roles') == 'Admin') {
+          navigate('/dash/admin')
+        } else navigate('/dash')
       }
     } catch (error) {
       console.log('Error validating token:', error)
@@ -43,30 +32,11 @@ const Login = () => {
       password: password,
     }
 
-    try {
-      const response = await fetch(API_URL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(loginData),
-      })
-      if (response.ok) {
-        console.log('Login successful:', response)
-        localStorage.setItem(
-          'accessToken',
-          response.headers.get('Authorization')
-        )
-        localStorage.setItem(
-          'refreshToken',
-          response.headers.get('Refresh-Token')
-        )
-        navigate('/dash')
-      } else {
-        console.error('Login failed:', response.statusText)
-      }
-    } catch (error) {
-      console.error('Error logging in:', error)
+    const role = await LoginApi(loginData)
+    if (role == 'Admin') {
+      navigate('/dash/admin')
+    } else {
+      navigate('dash')
     }
   }
 
