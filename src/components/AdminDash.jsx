@@ -20,6 +20,12 @@ const AdminDash = () => {
     fetchUsers()
   }, [])
 
+  const handleDelete = async (id) => {
+    const res = await showDeleteConfirm(id)
+    console.log(res)
+    setUserList((prevList) => prevList.filter((user) => user.id !== id))
+  }
+
   const columns = [
     {
       title: 'ID',
@@ -48,7 +54,7 @@ const AdminDash = () => {
       render: (_, record) => (
         <Space size="middle">
           <a>Update {record.firstName}</a>
-          <a onClick={() => showDeleteConfirm(6)}>Delete</a>
+          <a onClick={() => handleDelete(record.id)}>Delete</a>
         </Space>
       ),
     },
