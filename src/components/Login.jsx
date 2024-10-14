@@ -1,9 +1,40 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const Login = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const API_URL = 'http://localhost:8080/users/login'
+  const [refreshToken, setRefreshToken] = useState(null)
+  const navigate = useNavigate()
+
+  const findRefreshToken = async () => {
+    try {
+      const storedToken = localStorage.getItem('refreshToken')
+      setRefreshToken(storedToken)
+
+      const tokenValidation = await fetch(
+        'http://localhost:8080/users/tokenLogin',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: storedToken,
+          },
+        }
+      )
+      if (tokenValidation.ok) {
+        console.log('Token is valid')
+        navigate('/dash')
+      }
+    } catch (error) {
+      console.log('Error validating token:', error)
+    }
+  }
+
+  useEffect(() => {
+    findRefreshToken()
+  }, [])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -13,18 +44,27 @@ const Login = () => {
     }
 
     try {
-      const response = await fetch('http://localhost:8080/users/login', {
+      const response = await fetch(API_URL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        // Serialize the loginData object to a JSON string
         body: JSON.stringify(loginData),
       })
-
-      // const data = await response.json()
-      console.log(response.headers.get('Authorization'))
-      console.log(response.headers.get('Refresh-Token'))
+      if (response.ok) {
+        console.log('Login successful:', response)
+        localStorage.setItem(
+          'accessToken',
+          response.headers.get('Authorization')
+        )
+        localStorage.setItem(
+          'refreshToken',
+          response.headers.get('Refresh-Token')
+        )
+        navigate('/dash')
+      } else {
+        console.error('Login failed:', response.statusText)
+      }
     } catch (error) {
       console.error('Error logging in:', error)
     }
