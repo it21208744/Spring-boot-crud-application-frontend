@@ -6,7 +6,7 @@ export const viewAllUsersApi = async () => {
       Authorization: authToken,
     },
   })
-  //   console.log(response.data)
+
   return response.data
 }
 
@@ -28,18 +28,33 @@ export const handleUpdate = async (id, firstName, lastName) => {
   const response = await axios.put(
     `http://localhost:8080/users/${id}`,
     {
-      // URL with a specific resource ID
       firstName: firstName,
       lastName: lastName,
     },
     {
       headers: {
-        'Content-Type': 'application/json', // Specifies the type of the request body
-        Authorization: authToken, // Example of an authorization token
-        'Custom-Header': 'custom-value', // Additional custom header
+        'Content-Type': 'application/json',
+        Authorization: authToken,
+        'Custom-Header': 'custom-value',
       },
     }
   )
 
   return response
+}
+
+export const logout = async () => {
+  const authToken = localStorage.getItem('accessToken')
+  console.log(authToken)
+  const response = await axios.post(
+    `http://localhost:8080/users/logout`,
+    {}, // Empty body if you don't need to send any data in the body
+    {
+      headers: {
+        Authorization: authToken, // Ensure you include 'Bearer' if using JWTs
+      },
+    }
+  )
+  localStorage.setItem('accessToken', '')
+  localStorage.setItem('refreshToken', '')
 }

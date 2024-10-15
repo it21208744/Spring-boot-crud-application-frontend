@@ -1,25 +1,27 @@
 import { useEffect, useState } from 'react'
-import { viewAllUsersApi } from '../Apis/usersApi'
+import { logout, viewAllUsersApi } from '../Apis/usersApi'
 import { Table, Space } from 'antd'
 import showDeleteConfirm from '../utils/ShowDeleteConfirm'
 import UpdateUser from '../utils/UpdateUser'
+import { FloatButton } from 'antd'
+import { FileTextOutlined } from '@ant-design/icons'
 
 const AdminDash = () => {
   const [userList, setUserList] = useState([])
   const [openUpdate, setOpenUpdate] = useState(false)
   const [userDetails, setUserDetails] = useState({})
 
+  const fetchUsers = async () => {
+    const users = await viewAllUsersApi()
+
+    const usersWithKeys = users.map((user) => ({
+      ...user,
+      key: user.id,
+    }))
+    setUserList(usersWithKeys)
+  }
+
   useEffect(() => {
-    const fetchUsers = async () => {
-      const users = await viewAllUsersApi()
-
-      const usersWithKeys = users.map((user) => ({
-        ...user,
-        key: user.id,
-      }))
-      setUserList(usersWithKeys)
-    }
-
     fetchUsers()
   }, [])
 
@@ -76,8 +78,20 @@ const AdminDash = () => {
           openUpdate={openUpdate}
           setOpenUpdate={setOpenUpdate}
           userDetails={userDetails}
+          fetchUsers={fetchUsers}
         />
       ) : null}
+      <FloatButton
+        icon={<FileTextOutlined />}
+        description={<span style={{ fontSize: '20px' }}>Logout</span>}
+        shape="square"
+        style={{
+          insetInlineEnd: 125,
+          width: '250px',
+          height: '70px',
+        }}
+        onClick={() => logout()}
+      />
     </div>
   )
 }

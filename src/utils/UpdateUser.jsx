@@ -2,7 +2,7 @@ import { Button, Form, Input, Modal } from 'antd'
 import { useState } from 'react'
 import { handleUpdate } from '../Apis/usersApi'
 
-const UpdateUser = ({ openUpdate, setOpenUpdate, userDetails }) => {
+const UpdateUser = ({ openUpdate, setOpenUpdate, userDetails, fetchUsers }) => {
   const [firstName, setFirstName] = useState(userDetails.firstName)
   const [lastName, setLastName] = useState(userDetails.lastName)
   const [confirmLoading, setConfirmLoading] = useState(false)
@@ -11,7 +11,8 @@ const UpdateUser = ({ openUpdate, setOpenUpdate, userDetails }) => {
     setConfirmLoading(true)
 
     try {
-      const response = handleUpdate(id, fname, lname)
+      const response = await handleUpdate(id, fname, lname)
+      fetchUsers()
 
       console.log('User updated:', response.data)
 
@@ -48,11 +49,6 @@ const UpdateUser = ({ openUpdate, setOpenUpdate, userDetails }) => {
           </Form.Item>
           <Form.Item label="Last Name">
             <Input value={lastName} onChange={handleLastNameChange} />
-          </Form.Item>
-          <Form.Item>
-            <Button type="primary" onClick={handleOk} loading={confirmLoading}>
-              Submit
-            </Button>
           </Form.Item>
         </Form>
       </Modal>
