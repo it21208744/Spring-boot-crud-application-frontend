@@ -32,11 +32,28 @@ const Login = () => {
       password: password,
     }
 
-    const role = await LoginApi(loginData)
-    if (role == 'Admin') {
-      navigate('/dash/admin')
+    const response = await LoginApi(loginData)
+    ////////////////////
+    if (response.ok) {
+      localStorage.setItem('accessToken', response.headers.get('Authorization'))
+      localStorage.setItem(
+        'refreshToken',
+        response.headers.get('Refresh-Token')
+      )
+      if (response.headers.get('roles') == 'Admin') navigate('/dash/admin')
+      else if (response.headers.get('roles') == 'User') navigate('dash')
+      else console.log('Not a valid user')
     } else {
-      navigate('dash')
+      if (response.status == 401) {
+        console.log(`Incorrect password`)
+      } else if (response.status == 404) {
+        console.log(`User not found`)
+      } else console.log(`Something went wrong`)
+    }
+    ///////////////////
+    if (response != null) {
+    } else {
+      console.log(`test`)
     }
   }
 

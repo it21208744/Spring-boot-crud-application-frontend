@@ -24,16 +24,7 @@ export const LoginApi = async (loginData) => {
       },
       body: JSON.stringify(loginData),
     })
-    if (response.ok) {
-      localStorage.setItem('accessToken', response.headers.get('Authorization'))
-      localStorage.setItem(
-        'refreshToken',
-        response.headers.get('Refresh-Token')
-      )
-      return response.headers.get('roles')
-    } else {
-      console.error('Login failed:', response.statusText)
-    }
+    return response
   } catch (error) {
     console.error('Error logging in:', error)
   }
