@@ -29,3 +29,18 @@ export const LoginApi = async (loginData) => {
     console.error('Error logging in:', error)
   }
 }
+
+export const registerUserApi = async (registerData) => {
+  try {
+    const response = await fetch('http://localhost:8080/users/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(registerData),
+    })
+    return response
+  } catch (error) {
+    console.error('Error logging in:', error)
+  }
+}
