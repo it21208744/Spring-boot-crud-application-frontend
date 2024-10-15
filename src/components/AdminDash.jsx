@@ -6,6 +6,7 @@ import showDeleteConfirm from '../utils/ShowDeleteConfirm'
 import UpdateUser from '../utils/UpdateUser'
 import { FloatButton } from 'antd'
 import { FileTextOutlined } from '@ant-design/icons'
+import { toast } from 'react-toastify'
 
 const AdminDash = () => {
   const navigate = useNavigate()
@@ -24,8 +25,12 @@ const AdminDash = () => {
   }
 
   const handleLogout = async () => {
-    await logout()
-    navigate('../../')
+    const response = await logout()
+    console.log(response)
+    if (response.status == 200) {
+      navigate('../../')
+      toast.success('User logged out')
+    } else toast.error('something went wrong')
   }
 
   useEffect(() => {
