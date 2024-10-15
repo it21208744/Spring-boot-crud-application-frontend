@@ -26,7 +26,7 @@ const LogoutBtn = () => {
       description={<span style={{ fontSize: '20px' }}>Logout</span>}
       shape="square"
       style={{
-        insetInlineEnd: 125,
+        insetInlineEnd: 50,
         width: '250px',
         height: '70px',
       }}

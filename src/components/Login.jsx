@@ -13,7 +13,8 @@ const Login = () => {
   const findRefreshToken = async () => {
     try {
       const tokenValidation = await tokenLogin()
-      if (tokenValidation.ok) {
+
+      if (tokenValidation != null && tokenValidation.ok) {
         if (tokenValidation.headers.get('roles') === 'Admin') {
           navigate('/dash/admin')
         } else {

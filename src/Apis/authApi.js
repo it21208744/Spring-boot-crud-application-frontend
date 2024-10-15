@@ -1,17 +1,24 @@
 export const tokenLogin = async () => {
   try {
     const storedToken = localStorage.getItem('refreshToken')
-    const response = await fetch('http://localhost:8080/users/tokenLogin', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: storedToken,
-      },
-    })
-    if (response.ok) {
-      localStorage.setItem('accessToken', response.headers.get('Authorization'))
-      return response
+    if (storedToken != '') {
+      const response = await fetch('http://localhost:8080/users/tokenLogin', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: storedToken,
+        },
+      })
+      console.log(response)
+      if (response.ok) {
+        localStorage.setItem(
+          'accessToken',
+          response.headers.get('Authorization')
+        )
+        return response
+      }
     }
+    return null
   } catch (error) {}
 }
 
@@ -26,7 +33,7 @@ export const LoginApi = async (loginData) => {
     })
     return response
   } catch (error) {
-    console.error('Error logging in:', error)
+    // console.error('Error logging in:', error)
   }
 }
 
@@ -41,6 +48,6 @@ export const registerUserApi = async (registerData) => {
     })
     return response
   } catch (error) {
-    console.error('Error logging in:', error)
+    // console.error('Error logging in:', error)
   }
 }
