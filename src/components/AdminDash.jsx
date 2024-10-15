@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react'
 import { logout, viewAllUsersApi } from '../Apis/usersApi'
 import { Table, Space } from 'antd'
+import { useNavigate } from 'react-router-dom'
 import showDeleteConfirm from '../utils/ShowDeleteConfirm'
 import UpdateUser from '../utils/UpdateUser'
 import { FloatButton } from 'antd'
 import { FileTextOutlined } from '@ant-design/icons'
 
 const AdminDash = () => {
+  const navigate = useNavigate()
   const [userList, setUserList] = useState([])
   const [openUpdate, setOpenUpdate] = useState(false)
   const [userDetails, setUserDetails] = useState({})
@@ -19,6 +21,11 @@ const AdminDash = () => {
       key: user.id,
     }))
     setUserList(usersWithKeys)
+  }
+
+  const handleLogout = async () => {
+    await logout()
+    navigate('../../')
   }
 
   useEffect(() => {
@@ -90,7 +97,7 @@ const AdminDash = () => {
           width: '250px',
           height: '70px',
         }}
-        onClick={() => logout()}
+        onClick={() => handleLogout()}
       />
     </div>
   )
