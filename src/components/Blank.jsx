@@ -1,4 +1,10 @@
+import LogoutBtn from '../utils/LogoutBtn'
+
 const Blank = () => {
-  return <div>Blank</div>
+  return (
+    <div>
+      <LogoutBtn />
+    </div>
+  )
 }
 export default Blank

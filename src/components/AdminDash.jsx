@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react'
-import { logout, viewAllUsersApi } from '../Apis/usersApi'
+import { viewAllUsersApi } from '../Apis/usersApi'
 import { Table, Space } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import showDeleteConfirm from '../utils/ShowDeleteConfirm'
 import UpdateUser from '../utils/UpdateUser'
-import { FloatButton } from 'antd'
-import { FileTextOutlined } from '@ant-design/icons'
-import { toast } from 'react-toastify'
+
+import LogoutBtn from '../utils/LogoutBtn'
 
 const AdminDash = () => {
   const navigate = useNavigate()
@@ -22,15 +21,6 @@ const AdminDash = () => {
       key: user.id,
     }))
     setUserList(usersWithKeys)
-  }
-
-  const handleLogout = async () => {
-    const response = await logout()
-    console.log(response)
-    if (response.status == 200) {
-      navigate('../../')
-      toast.success('User logged out')
-    } else toast.error('something went wrong')
   }
 
   useEffect(() => {
@@ -93,17 +83,7 @@ const AdminDash = () => {
           fetchUsers={fetchUsers}
         />
       ) : null}
-      <FloatButton
-        icon={<FileTextOutlined />}
-        description={<span style={{ fontSize: '20px' }}>Logout</span>}
-        shape="square"
-        style={{
-          insetInlineEnd: 125,
-          width: '250px',
-          height: '70px',
-        }}
-        onClick={() => handleLogout()}
-      />
+      <LogoutBtn />
     </div>
   )
 }
