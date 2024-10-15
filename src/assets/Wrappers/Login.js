@@ -6,33 +6,29 @@ const Wrapper = styled.aside`
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: linear-gradient(
-    135deg,
-    #ece9e6,
-    #ffffff
-  ); /* Smooth background gradient */
+  background: linear-gradient(135deg, #ece9e6, #ffffff);
   padding: 2rem;
 
   .login-title {
-    font-size: 36px; /* Larger, bold font */
+    font-size: 36px;
     color: #333;
     text-align: center;
-    margin-bottom: 2rem; /* Add space below title */
+    margin-bottom: 2rem;
     font-weight: 600;
   }
 
   .login-form {
     background-color: white;
-    padding: 3rem 2rem; /* More padding for a modern look */
+    padding: 3rem 2rem;
     border-radius: 12px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1); /* Softer, larger shadow */
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
     max-width: 400px;
     width: 100%;
-    transition: transform 0.3s ease; /* Smooth transition on hover */
+    transition: transform 0.3s ease;
   }
 
   .login-form:hover {
-    transform: translateY(-5px); /* Slight hover effect */
+    transform: translateY(-5px);
   }
 
   .form-label {
@@ -40,7 +36,7 @@ const Wrapper = styled.aside`
     color: #666;
     margin-bottom: 0.5rem;
     display: block;
-    font-weight: 500; /* Stronger font weight */
+    font-weight: 500;
   }
 
   .form-input {
@@ -56,7 +52,7 @@ const Wrapper = styled.aside`
 
   .form-input:focus {
     border-color: #007bff;
-    box-shadow: 0 0 8px rgba(0, 123, 255, 0.3); /* Light glow effect */
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
     outline: none;
   }
 
@@ -82,13 +78,13 @@ const Wrapper = styled.aside`
     font-size: 16px;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease;
-    width: 100%; /* Full-width button */
+    width: 100%;
     margin-bottom: 1rem;
   }
 
   .submit-button:hover {
     background-color: #0056b3;
-    transform: translateY(-2px); /* Button lift effect */
+    transform: translateY(-2px);
   }
 
   .register-link {
@@ -100,7 +96,7 @@ const Wrapper = styled.aside`
   }
 
   .register-link:hover {
-    color: #0056b3; /* Color change on hover */
+    color: #0056b3;
     text-decoration: underline;
   }
 `

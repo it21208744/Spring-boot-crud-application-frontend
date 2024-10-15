@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { tokenLogin, LoginApi } from '../Apis/authApi'
-import Wrapper from '../assets/Wrappers/Login' // Ensure the correct path for the Wrapper
+import Wrapper from '../assets/Wrappers/Login'
 
 const Login = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [errorMessage, setErrorMessage] = useState('') // State for error message
+  const [errorMessage, setErrorMessage] = useState('')
 
   const navigate = useNavigate()
 
@@ -32,7 +32,7 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    setErrorMessage('') // Reset the error message on new submit
+    setErrorMessage('')
 
     const loginData = {
       email: email,
@@ -103,17 +103,13 @@ const Login = () => {
           required
         />
 
-        {/* Display error message if exists */}
         {errorMessage && <p className="error-message">{errorMessage}</p>}
 
         <div className="form-actions">
           <button type="submit" className="submit-button">
             Login
           </button>
-          <a
-            className="register-link" // Added a class for styling
-            onClick={() => navigate('register')}
-          >
+          <a className="register-link" onClick={() => navigate('register')}>
             Don't have an account?
           </a>
         </div>

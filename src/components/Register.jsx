@@ -1,24 +1,24 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { registerUserApi } from '../Apis/authApi'
-import Wrapper from '../assets/Wrappers/Register' // Ensure the correct path for the Wrapper
+import Wrapper from '../assets/Wrappers/Register'
 import { toast } from 'react-toastify'
 
 const Register = () => {
-  const [firstName, setFirstName] = useState('') // State for first name
-  const [lastName, setLastName] = useState('') // State for last name
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
-  const [errorMessage, setErrorMessage] = useState('') // State for error message
-  const [successMessage, setSuccessMessage] = useState('') // State for success message
+  const [errorMessage, setErrorMessage] = useState('')
+  const [successMessage, setSuccessMessage] = useState('')
 
   const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    setErrorMessage('') // Reset the error message on new submit
-    setSuccessMessage('') // Reset the success message on new submit
+    setErrorMessage('')
+    setSuccessMessage('')
 
     if (password !== confirmPassword) {
       setErrorMessage('Passwords do not match')
@@ -28,8 +28,8 @@ const Register = () => {
     const registerData = {
       email: email,
       password: password,
-      firstName: firstName, // Include first name
-      lastName: lastName, // Include last name
+      firstName: firstName,
+      lastName: lastName,
     }
 
     try {
@@ -37,7 +37,7 @@ const Register = () => {
 
       if (response.ok) {
         toast.success('Registration successful! Please log in.')
-        navigate('../') // Navigate to login page after success
+        navigate('../')
       } else {
         if (response.status === 409) {
           setErrorMessage('User already exists')
@@ -120,20 +120,15 @@ const Register = () => {
           required
         />
 
-        {/* Display error message if exists */}
         {errorMessage && <p className="error-message">{errorMessage}</p>}
 
-        {/* Display success message if exists */}
         {successMessage && <p className="success-message">{successMessage}</p>}
 
         <div className="form-actions">
           <button type="submit" className="submit-button">
             Register
           </button>
-          <a
-            className="login-link" // Added a class for styling
-            onClick={() => navigate('../')}
-          >
+          <a className="login-link" onClick={() => navigate('../')}>
             Already have an account? Login here.
           </a>
         </div>
