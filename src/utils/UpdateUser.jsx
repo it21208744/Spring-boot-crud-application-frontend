@@ -1,0 +1,63 @@
+import { Button, Form, Input, Modal } from 'antd'
+import { useState } from 'react'
+import { handleUpdate } from '../Apis/usersApi'
+
+const UpdateUser = ({ openUpdate, setOpenUpdate, userDetails }) => {
+  const [firstName, setFirstName] = useState(userDetails.firstName)
+  const [lastName, setLastName] = useState(userDetails.lastName)
+  const [confirmLoading, setConfirmLoading] = useState(false)
+
+  const handleOk = async (id, fname, lname) => {
+    setConfirmLoading(true)
+
+    try {
+      const response = handleUpdate(id, fname, lname)
+
+      console.log('User updated:', response.data)
+
+      setOpenUpdate(false)
+    } catch (error) {
+      console.error('Error updating user:', error)
+    } finally {
+      setConfirmLoading(false)
+    }
+  }
+
+  const handleFirstNameChange = (e) => {
+    setFirstName(e.target.value)
+  }
+
+  const handleLastNameChange = (e) => {
+    setLastName(e.target.value)
+  }
+
+  return (
+    <div>
+      <Modal
+        title={userDetails.email}
+        open={openUpdate}
+        onOk={() => {
+          handleOk(userDetails.id, firstName, lastName)
+        }}
+        confirmLoading={confirmLoading}
+        onCancel={() => setOpenUpdate(false)}
+      >
+        <Form>
+          <Form.Item label="First Name">
+            <Input value={firstName} onChange={handleFirstNameChange} />
+          </Form.Item>
+          <Form.Item label="Last Name">
+            <Input value={lastName} onChange={handleLastNameChange} />
+          </Form.Item>
+          <Form.Item>
+            <Button type="primary" onClick={handleOk} loading={confirmLoading}>
+              Submit
+            </Button>
+          </Form.Item>
+        </Form>
+      </Modal>
+    </div>
+  )
+}
+
+export default UpdateUser

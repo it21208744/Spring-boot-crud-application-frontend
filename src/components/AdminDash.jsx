@@ -2,9 +2,12 @@ import { useEffect, useState } from 'react'
 import { viewAllUsersApi } from '../Apis/usersApi'
 import { Table, Space } from 'antd'
 import showDeleteConfirm from '../utils/ShowDeleteConfirm'
+import UpdateUser from '../utils/UpdateUser'
 
 const AdminDash = () => {
   const [userList, setUserList] = useState([])
+  const [openUpdate, setOpenUpdate] = useState(false)
+  const [userDetails, setUserDetails] = useState({})
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -21,9 +24,14 @@ const AdminDash = () => {
   }, [])
 
   const handleDelete = async (id) => {
-    const res = await showDeleteConfirm(id)
+    const res = await showDeleteConfirm(id, setUserList)
     console.log(res)
-    setUserList((prevList) => prevList.filter((user) => user.id !== id))
+  }
+
+  const handleUpdate = (record) => {
+    setOpenUpdate(true)
+    setUserDetails(record)
+    console.log(userDetails)
   }
 
   const columns = [
@@ -53,7 +61,7 @@ const AdminDash = () => {
       key: 'Actions',
       render: (_, record) => (
         <Space size="middle">
-          <a>Update {record.firstName}</a>
+          <a onClick={() => handleUpdate(record)}>Update {record.firstName}</a>
           <a onClick={() => handleDelete(record.id)}>Delete</a>
         </Space>
       ),
@@ -62,7 +70,14 @@ const AdminDash = () => {
 
   return (
     <div>
-      <Table dataSource={userList} columns={columns} />
+      <Table dataSource={userList} columns={columns} pagination={false} />
+      {openUpdate ? (
+        <UpdateUser
+          openUpdate={openUpdate}
+          setOpenUpdate={setOpenUpdate}
+          userDetails={userDetails}
+        />
+      ) : null}
     </div>
   )
 }
