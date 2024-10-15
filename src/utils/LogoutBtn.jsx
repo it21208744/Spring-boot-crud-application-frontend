@@ -1,5 +1,5 @@
 import { FileTextOutlined } from '@ant-design/icons'
-import { logout } from '../Apis/usersApi'
+import { logout } from '../Apis/authApi'
 import { FloatButton } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'

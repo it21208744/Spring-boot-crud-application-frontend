@@ -42,26 +42,3 @@ export const handleUpdate = async (id, firstName, lastName) => {
 
   return response
 }
-
-export const logout = async () => {
-  const authToken = localStorage.getItem('accessToken')
-
-  const refreshToken = localStorage.getItem('refreshToken')
-
-  if (authToken != '' && refreshToken != '') {
-    const response = await axios.post(
-      `http://localhost:8080/users/logout`,
-      {},
-      {
-        headers: {
-          Authorization: authToken,
-        },
-      }
-    )
-    if (response.status == 200) {
-      localStorage.setItem('accessToken', '')
-      localStorage.setItem('refreshToken', '')
-    }
-    return response
-  } else return null
-}
