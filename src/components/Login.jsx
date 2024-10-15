@@ -33,7 +33,7 @@ const Login = () => {
     }
 
     const response = await LoginApi(loginData)
-    ////////////////////
+
     if (response.ok) {
       localStorage.setItem('accessToken', response.headers.get('Authorization'))
       localStorage.setItem(
@@ -50,7 +50,7 @@ const Login = () => {
         console.log(`User not found`)
       } else console.log(`Something went wrong`)
     }
-    ///////////////////
+
     if (response != null) {
     } else {
       console.log(`test`)
