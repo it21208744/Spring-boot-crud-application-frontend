@@ -6,6 +6,7 @@ import showDeleteConfirm from '../utils/ShowDeleteConfirm'
 import UpdateUser from '../utils/UpdateUser'
 
 import LogoutBtn from '../utils/LogoutBtn'
+import { toast } from 'react-toastify'
 
 const AdminDash = () => {
   const navigate = useNavigate()
@@ -15,12 +16,15 @@ const AdminDash = () => {
 
   const fetchUsers = async () => {
     const users = await viewAllUsersApi()
-
-    const usersWithKeys = users.map((user) => ({
-      ...user,
-      key: user.id,
-    }))
-    setUserList(usersWithKeys)
+    if (users != null) {
+      const usersWithKeys = users.map((user) => ({
+        ...user,
+        key: user.id,
+      }))
+      setUserList(usersWithKeys)
+    } else {
+      toast.error('Please login again')
+    }
   }
 
   useEffect(() => {

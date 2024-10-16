@@ -55,23 +55,33 @@ export const registerUserApi = async (registerData) => {
 
 export const logout = async () => {
   const authToken = localStorage.getItem('accessToken')
-
   const refreshToken = localStorage.getItem('refreshToken')
 
   if (authToken != '' && refreshToken != '') {
-    const response = await axios.post(
-      `http://localhost:8080/users/logout`,
-      {},
-      {
-        headers: {
-          Authorization: authToken,
-        },
+    try {
+      const response = await axios.post(
+        `http://localhost:8080/users/logout`,
+        {},
+        {
+          headers: {
+            Authorization: authToken,
+          },
+        }
+      )
+
+      console.log('test')
+
+      if (response.status == 200) {
+        localStorage.setItem('accessToken', '')
+        localStorage.setItem('refreshToken', '')
       }
-    )
-    if (response.status == 200) {
-      localStorage.setItem('accessToken', '')
-      localStorage.setItem('refreshToken', '')
+      return response
+    } catch (error) {
+      console.error('Error during logout:', error)
+
+      return null
     }
-    return response
-  } else return null
+  } else {
+    return null
+  }
 }

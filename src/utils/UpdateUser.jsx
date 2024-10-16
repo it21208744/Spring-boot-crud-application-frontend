@@ -13,18 +13,22 @@ const UpdateUser = ({ openUpdate, setOpenUpdate, userDetails, fetchUsers }) => {
 
     try {
       const response = await handleUpdate(id, fname, lname)
-      fetchUsers()
-      if (response.status == 200) {
-        toast.success('User updated')
-      } else if (response.status == 404) {
-        toast.error('User not found')
-      } else if (response.status == 401) {
-        toast.error('Not authorized')
-      } else {
-        toast.error('something went wrong')
-      }
+      if (response != null) {
+        fetchUsers()
+        if (response.status == 200) {
+          toast.success('User updated')
+        } else if (response.status == 404) {
+          toast.error('User not found')
+        } else if (response.status == 401) {
+          toast.error('Not authorized')
+        } else {
+          toast.error('something went wrong')
+        }
 
-      setOpenUpdate(false)
+        setOpenUpdate(false)
+      } else {
+        toast.error('Please login again')
+      }
     } catch (error) {
       toast.error('something went wrong')
     } finally {
